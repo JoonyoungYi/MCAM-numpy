@@ -12,35 +12,27 @@ from app.matrix_completion.alternating_minimization import AlternatingMinimizati
 
 filename = 'files/ml-20m/ratings.csv'
 
+MAX_USER_ID = 138494
+MAX_MOVIE_ID = 131263
+
 f = open(filename, 'r')
 f.readline()
 
-max_user_id = 0
-max_movie_id = 0
-
-user_ids = {}
-movie_ids = {}
-
+m = np.zeros((MAX_USER_ID, MAX_MOVIE_ID))
 for line in f:
     cols = line.split(',')
 
     user_id = int(cols[0])
     movie_id = int(cols[1])
-    # rating = int(float(cols[2]) * 2)
+    rating = int(float(cols[2]) * 2)
 
-    if user_id > max_user_id:
-        max_user_id = user_id
+    m[user_id, movie_id] = rating
 
-    if movie_id > max_movie_id:
-        max_movie_id = movie_id
-
-    user_ids[user_id] = 1
-    movie_ids[movie_id] = 1
-
-print(max_user_id)
-print(max_movie_id)
-print(len(user_ids))
-print(len(movie_ids))
+print(m.shape)
+m = m[~np.all(m == 0, axis=1)]
+print(m.shape)
+m = m[~np.all(m == 0, axis=2)]
+print(m.shape)
 
 # alternating_minimization = AlternatingMinimization()
 # r, a = alternating_minimization.run(m)
