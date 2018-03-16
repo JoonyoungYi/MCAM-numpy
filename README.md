@@ -1,2 +1,3 @@
 # matrix-completion
-연습용 Matrix Completion Repo
+
+연습용 Matrix Completion Repository
