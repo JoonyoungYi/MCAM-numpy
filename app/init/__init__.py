@@ -14,12 +14,15 @@ def _get_processed_dir_path(folder):
     return os.path.join(DATA_PROCESSED_DIR_PATH, folder)
 
 
-def _get_user_dict_and_item_dict(folder, file_name):
+def _get_user_dict_and_item_dict(folder, file_name, token, header_row):
     file_path = os.path.join(_get_raw_dir_path(folder), file_name)
     with open(file_path, 'r') as f:
+        if header_row:
+            f.readline()
+
         user_dict, item_dict = {}, {}
         for line in f:
-            r = convert_to_rating(line, token='\t')
+            r = convert_to_rating(line, token=token)
             user_dict[r.user_id] = 1
             item_dict[r.item_id] = 1
         return user_dict, item_dict
@@ -35,10 +38,11 @@ def _get_and_save_index_dict(d, dir_path, file_name):
         return index_dict
 
 
-def get_and_save_index_dicts(folder, file_name):
+def _get_and_save_index_dicts(folder, file_name, token, header_row):
     assert folder
 
-    user_dict, item_dict = _get_user_dict_and_item_dict(folder, file_name)
+    user_dict, item_dict = _get_user_dict_and_item_dict(
+        folder, file_name, token, header_row)
     if user_dict is None or item_dict is None:
         raise Exception('file_path로부터 user_dict와 item_dict를 얻어오지 못했습니다.')
 
@@ -54,14 +58,24 @@ def get_and_save_index_dicts(folder, file_name):
     return user_row_dict, item_col_dict
 
 
-def _save_test_sets(dir_path, file_name, user_row_dict, item_col_dict):
+def _save_test_sets(
+        folder,
+        file_name,
+        token,
+        header_row,
+        user_row_dict,
+        item_col_dict, ):
+    dir_path = _get_processed_dir_path(folder)
     fs = [
         open(os.path.join(dir_path, 'test_{}.dat'.format(c)), 'w')
         for c in range(5)
     ]
-    f = open('app/data/raw/ml-100k/u.data', 'r')
+    f = open(os.path.join(_get_raw_dir_path(folder), file_name), 'r')
+    if header_row:
+        f.readline()
+
     for line in f:
-        r = convert_to_rating(line, token='\t')
+        r = convert_to_rating(line, token=token)
         c = random.randint(0, 4)  # random class uniformly
         fs[c].write('{},{},{}\n'.format(user_row_dict[r.user_id],
                                         item_col_dict[r.item_id], r.score))
@@ -69,7 +83,8 @@ def _save_test_sets(dir_path, file_name, user_row_dict, item_col_dict):
     (f.close() for f in fs)
 
 
-def _save_training_sets(dir_path):
+def _save_training_sets(folder):
+    dir_path = _get_processed_dir_path(folder)
     for i in range(5):
         f = open(os.path.join(dir_path, 'training_{}.dat'.format(i)), 'w')
         for c in range(5):
@@ -82,7 +97,33 @@ def _save_training_sets(dir_path):
         f.close()
 
 
-def save_5_folded_data(folder, file_name, user_row_dict, item_col_dict):
-    dir_path = _get_processed_dir_path(folder)
-    _save_test_sets(dir_path, file_name, user_row_dict, item_col_dict)
-    _save_training_sets(dir_path)
+def _save_5_folded_data(
+        folder,
+        file_name,
+        token,
+        header_row,
+        user_row_dict,
+        item_col_dict, ):
+    _save_test_sets(
+        folder,
+        file_name,
+        token,
+        header_row,
+        user_row_dict,
+        item_col_dict, )
+    _save_training_sets(folder)
+
+
+def base_init(folder, file_name, token, header_row=False):
+    user_row_dict, item_col_dict = _get_and_save_index_dicts(
+        folder,
+        file_name,
+        token,
+        header_row, )
+    _save_5_folded_data(
+        folder,
+        file_name,
+        token,
+        header_row,
+        user_row_dict,
+        item_col_dict, )

@@ -6,6 +6,9 @@ from app.configs import DATA_RAW_DIR_PATH
 from app.configs import DATA_PROCESSED_DIR_PATH
 from app.func import log
 from app.init import ml_100k
+from app.init import ml_1m
+from app.init import ml_10m
+from app.init import ml_20m
 
 
 def _create_dir_path_if_not_exist(dir_path):
@@ -31,8 +34,11 @@ def main():
     ], folders):
         _create_dir_path_if_not_exist(os.path.join(dir_path, folder))
 
-    ml_100k.init()
-    return False
+    # ml_100k.init()
+    # ml_1m.init()
+    # ml_10m.init()
+    ml_20m.init()
+    return True
 
 
 if __name__ == '__main__':
