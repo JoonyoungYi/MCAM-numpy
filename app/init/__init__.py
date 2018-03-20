@@ -1,9 +1,17 @@
 import os
 import random
 
-from ..func.line import convert_to_rating
 from ..configs import DATA_RAW_DIR_PATH
 from ..configs import DATA_PROCESSED_DIR_PATH
+from ..models import Rating
+
+
+def _convert_to_rating(line, token=','):
+    rows = line.strip().split(token)
+    user_id = int(rows[0])
+    item_id = int(rows[1])
+    score = float(rows[2])
+    return Rating(score=score, user_id=user_id, item_id=item_id)
 
 
 def _get_raw_dir_path(folder):
@@ -22,7 +30,7 @@ def _get_user_dict_and_item_dict(folder, file_name, token, header_row):
 
         user_dict, item_dict = {}, {}
         for line in f:
-            r = convert_to_rating(line, token=token)
+            r = _convert_to_rating(line, token=token)
             user_dict[r.user_id] = 1
             item_dict[r.item_id] = 1
         return user_dict, item_dict
@@ -75,7 +83,7 @@ def _save_test_sets(
         f.readline()
 
     for line in f:
-        r = convert_to_rating(line, token=token)
+        r = _convert_to_rating(line, token=token)
         c = random.randint(0, 4)  # random class uniformly
         fs[c].write('{},{},{}\n'.format(user_row_dict[r.user_id],
                                         item_col_dict[r.item_id], r.score))

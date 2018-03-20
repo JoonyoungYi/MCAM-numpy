@@ -127,8 +127,12 @@ class AlternatingMinimization(object):
         return result
 
     @classmethod
-    def run(cls, matrix_x, min_rank=1, max_rank=30, delta=1e-6,
-            max_iter=10000):
+    def train(cls,
+              matrix_x,
+              min_rank=1,
+              max_rank=30,
+              delta=1e-6,
+              max_iter=10000):
         """
         perform low rank matrix completion
 
