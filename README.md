@@ -13,7 +13,7 @@ m: The number of row of the matrix
 n: The number of column of the matrix
 k: The rank of the matrix.
 M: The matrix to recover.
-X: The solution of nuclear norm minimization.
+X: The solution of AM.
 p: samling probability
 ```
 
