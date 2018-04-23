@@ -107,8 +107,8 @@ class AlternatingMinimization(object):
 
         Returns:
             float: Description of return value
-            numpy.array: m by n matrix that similar to matrix_x
             numpy.array: best left side matrix that can express matrix_x
+            numpy.array: best right side matrix that can express matrix_x
         """
         result = (cls._MAX_ERROR, None, None)
 
@@ -120,10 +120,10 @@ class AlternatingMinimization(object):
             train_err = cls._get_err(matrix_x, candidate)
 
             if -delta < result[0] - train_err < delta:
-                result = (train_err, candidate, matrix_l_rank_k)
+                result = (train_err, matrix_l_rank_k, matrix_r_rank_kt)
                 break
             if result[0] > train_err:
-                result = (train_err, candidate, matrix_l_rank_k)
+                result = (train_err, matrix_l_rank_k, matrix_r_rank_kt)
         return result
 
     @classmethod
@@ -140,8 +140,8 @@ class AlternatingMinimization(object):
             max_iter (int): maximum number of iterations per each rank
 
         Returns:
-            numpy.array: m by n matrix that similar to matrix_x
             numpy.array: best left side matrix that can express matrix_x
+            numpy.array: best right side matrix that can express matrix_x
         """
         matrix_u, matrix_sigma, matrix_vt = np.linalg.svd(
             matrix_x, full_matrices=False)

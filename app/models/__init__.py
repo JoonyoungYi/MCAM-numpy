@@ -1,1 +1,0 @@
-from .rating import Rating
