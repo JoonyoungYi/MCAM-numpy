@@ -101,4 +101,5 @@ ENV/
 .mypy_cache/
 
 # Custom ignore
-app/data/
+np/.venv/
+tf/.venv/
