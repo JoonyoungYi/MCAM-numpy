@@ -7,6 +7,16 @@
   - 1. `numpy` version.
   - 2. `tensorflow` version.
 
+- The meanings of parameters.
+```
+m: The number of row of the matrix
+n: The number of column of the matrix
+k: The rank of the matrix.
+M: The matrix to recover.
+X: The solution of nuclear norm minimization.
+p: samling probability
+```
+
 ## 1. numpy
 
 - How to init and run
