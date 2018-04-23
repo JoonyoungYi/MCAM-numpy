@@ -12,9 +12,12 @@
 m: The number of row of the matrix
 n: The number of column of the matrix
 k: The rank of the matrix.
+
+p: samling probability
+mask: masking matrix. if entries are hidden, True else False.
+
 M: The matrix to recover.
 X: The solution of AM.
-p: samling probability
 ```
 
 ## 1. numpy
