@@ -3,9 +3,7 @@
 - The repository reproducing algorithm in the paper, [Low-rank Matrix Completion using Alternating Minimization](https://arxiv.org/abs/1212.0467).
   - I reproduce the Algorithm 2(AltMinComplete) only. Because, Algorithm 1 is not for matrix completion problem, but for matrix sensing problem.
 
-- In this repository, I implemented the algorithm in two ways.
-  - 1. `numpy` version.
-  - 2. `tensorflow` version.
+- In this repository, I used numpy to implement the paper.
 
 - The meanings of parameters.
 ```
@@ -20,22 +18,9 @@ M: The matrix to recover.
 X: The solution of AM.
 ```
 
-## 1. numpy
-
 - How to init and run
 ```
 cd np
-virtualenv .venv -p python3
-. .venv/bin/activate
-pip install -r requirements.txt
-python run.py
-```
-
-## 2. tensorflow
-
-- How to init and run
-```
-cd tf
 virtualenv .venv -p python3
 . .venv/bin/activate
 pip install -r requirements.txt
