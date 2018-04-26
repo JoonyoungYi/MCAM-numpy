@@ -9,13 +9,15 @@
 ```
 m: The number of row of the matrix
 n: The number of column of the matrix
-k: The rank of the matrix.
-
 p: samling probability
-mask: masking matrix. if entries are hidden, True else False.
+omega: the observed set omega. if entries are given, 1 else 0.
 
 M: The matrix to recover.
 X: The solution of AM.
+
+k: The rank of the matrix.
+T: The number of iteration
+mu: coherence
 ```
 
 - How to init and run
