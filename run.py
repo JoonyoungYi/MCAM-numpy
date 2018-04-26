@@ -21,7 +21,7 @@ def _get_masked_matrix(M, omega):
 def _get_V_from_U(M, U, omega):
     column = M.shape[1]
     rank = U.shape[1]
-    V = np.empty((rank, column), dtype=type(M))
+    V = np.empty((rank, column), dtype=M.dtype)
 
     for j in range(0, column):
         U_ = U.copy()
@@ -64,6 +64,7 @@ def _init_U(M, omega, p, k, mu):
 def _solve(M, omega, p, k, T, mu):
     omegas = _split_omega(omega, T)
     U = _init_U(M[:, :], omegas[0], p, k, mu)
+    print('')
     V = None
     for t in range(T):
         V = _get_V_from_U(M, U, omegas[t + 1])
@@ -71,6 +72,7 @@ def _solve(M, omega, p, k, T, mu):
 
         err = _get_err(M, U, V, omega)
         print('>> t(%3d):' % t, err)
+    print('')
     assert V is not None
     return np.dot(U, V)
 
@@ -79,11 +81,27 @@ def main(m, n, k, p, T, mu):
     M = _make_lr_matrix(m, n, k)
     omega = np.zeros((m, n))
     omega[np.random.rand(m, n) <= p] = 1
+    cardinality_of_omega = np.count_nonzero(omega)
     omega = omega.astype(np.int16)
+    M_rank = np.linalg.matrix_rank(M)
+    print("RANK of M        :", M_rank)
     M_ = _get_masked_matrix(M, omega)
 
     X = _solve(M, omega, p, k, T, mu)
-    print("|X-M|_F/|M|_F",
+    X_rank = np.linalg.matrix_rank(X)
+    print("RANK of X        :", X_rank)
+
+    E = np.subtract(M, X)
+    E_train = E.copy()
+    np.place(E_train, 1 - omega, 0)
+    print('TRAIN RMSE       :',
+          np.linalg.norm(E_train, "fro") / cardinality_of_omega)
+    E_test = E.copy()
+    np.place(E_test, omega, 0)
+    print('TEST  RMSE       :',
+          np.linalg.norm(E_test, "fro") / (m * n - cardinality_of_omega))
+
+    print("|X-M|_F/|M|_F    :",
           np.linalg.norm(np.subtract(M, X), ord='fro') / np.linalg.norm(
               M, ord='fro'))
 
