@@ -29,3 +29,20 @@ virtualenv .venv -p python3
 pip install -r requirements.txt
 python run.py
 ```
+
+- The example of result(console)
+```
+RANK of M        : 2
+|U_hat-U|_F/|U|_F: 1.4007495010575732
+
+>> t(  0): 7.056300795604675e-17
+>> t(  1): 8.023918248411439e-17
+>> t(  2): 6.838685255066973e-17
+>> t(  3): 7.616046824035152e-17
+>> t(  4): 6.07257413689918e-17
+
+RANK of X        : 2
+TRAIN RMSE       : 1.9046232036157855e-17
+TEST  RMSE       : 6.635452802602127e-18
+|X-M|_F/|M|_F    : 4.614953476853536e-16
+```
