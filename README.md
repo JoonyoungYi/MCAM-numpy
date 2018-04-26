@@ -11,6 +11,7 @@ m: The number of row of the matrix
 n: The number of column of the matrix
 p: samling probability
 omega: the observed set omega. if entries are given, 1 else 0.
+cardinality_of_omega: The cardinality of set omega.
 
 M: The matrix to recover.
 X: The solution of AM.
