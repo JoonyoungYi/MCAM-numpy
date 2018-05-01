@@ -1,4 +1,4 @@
-# Low-rank Matrix Completion using Alternating Minimization(lrmc-am)
+# Low-rank Matrix Completion using Alternating Minimization(MCAM-numpy)
 
 - The repository reproducing algorithm in the paper, [Low-rank Matrix Completion using Alternating Minimization](https://arxiv.org/abs/1212.0467).
   - I reproduce the Algorithm 2(AltMinComplete) only. Because, Algorithm 1 is not for matrix completion problem, but for matrix sensing problem.
