@@ -23,7 +23,6 @@ mu: coherence
 
 - How to init and run
 ```
-cd np
 virtualenv .venv -p python3
 . .venv/bin/activate
 pip install -r requirements.txt
